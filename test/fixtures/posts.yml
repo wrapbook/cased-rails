@@ -1,0 +1,9 @@
+blog:
+  title: Blog Post
+  user: dewski
+  body: My Blog Post
+
+press:
+  title: Press Release
+  user: dewski
+  body: My Press Release

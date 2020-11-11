@@ -1,0 +1,38 @@
+name: Ruby
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ruby:2.6.5
+
+    services:
+      postgres:
+        image: postgres:11.6
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: cased
+          POSTGRES_PASSWORD: auditrail
+          POSTGRES_DB: cased_rails_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build cased-ruby
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --local
+
+      - name: Run Tests
+        env:
+          DATABASE_URL: postgres://cased:auditrail@postgres:5432/cased_rails_test
+        run: |
+          bundle exec rails test

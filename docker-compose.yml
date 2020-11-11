@@ -1,0 +1,25 @@
+version: "3"
+services:
+  postgres-development:
+    image: postgres:11.6
+    restart: always
+    volumes:
+      - ./tmp/volumes/postgres-development:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: cased
+      POSTGRES_PASSWORD: auditrail
+      POSTGRES_DB: cased_rails_development
+    ports:
+      - "5534:5432"
+
+  postgres-test:
+    image: postgres:11.6
+    restart: always
+    volumes:
+      - ./tmp/volumes/postgres-test:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: cased
+      POSTGRES_PASSWORD: auditrail
+      POSTGRES_DB: cased_rails_test
+    ports:
+      - "5535:5432"
