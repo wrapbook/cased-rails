@@ -17,6 +17,7 @@ A Cased client for Ruby on Rails applications in your organization to control an
   - [Context](#context)
   - [Testing](#testing)
 - [Customizing cased-rails](#customizing-cased-rails)
+- [Contributing](#contributing)
 
 ## Installation
 

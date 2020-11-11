@@ -11,13 +11,13 @@ Gem::Specification.new do |spec|
   spec.authors     = ['Garrett Bjerkhoel']
   spec.email       = ['garrett@cased.com']
   spec.homepage    = 'https://github.com/cased/cased-rails'
-  spec.summary     = 'cased-rails provides a simple to use Rails plugin to build audit trails from within your application.'
-  spec.description = 'cased-rails provides a simple to use Rails plugin to build audit trails from within your application.'
+  spec.summary     = 'Ruby on Rails SDK/client library for Cased'
+  spec.description = 'Ruby on Rails SDK/client library for Cased'
   spec.license     = 'MIT'
 
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  spec.add_dependency 'cased-ruby'
+  spec.add_dependency 'cased-ruby', '~> 0.3.3'
   spec.add_dependency 'rails', '~> 6.0.2'
 
   spec.add_development_dependency 'mocha', '1.11.2'
