@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
-          bundle install --local
+          bundle install --jobs 4 --retry 3
 
       - run: bin/rubocop
 
