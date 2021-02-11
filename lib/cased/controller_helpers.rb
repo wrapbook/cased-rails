@@ -37,8 +37,16 @@ module Cased
     def guard
       # TODO: Cancel previous session if not used
       return true unless guard_required?
-      return true if guard_session_approved?
-      return true if current_guard_session.create && current_guard_session.approved?
+
+      if guard_session_approved?
+        Cased.context.merge(guard_session: current_guard_session)
+        return true
+      end
+
+      if current_guard_session.create && current_guard_session.approved?
+        Cased.context.merge(guard_session: current_guard_session)
+        return true
+      end
 
       render_guard
     end
