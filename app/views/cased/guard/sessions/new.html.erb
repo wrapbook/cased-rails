@@ -1,0 +1,11 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img class="mx-auto h-12 w-auto" src="https://app.cased.com/assets/logo-5405bf4862ea28274b6914e40fcb7bea4f54422206c613ab7b7f5d34db8bd86d.png" alt="Workflow">
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" id="guard-session-container">
+      <%= render 'cased/guard/sessions/form', guard_session: current_guard_session %>
+    </div>
+  </div>
+</div>

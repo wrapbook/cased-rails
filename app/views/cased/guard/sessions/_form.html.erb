@@ -1,0 +1,11 @@
+<% if guard_session.requested? %>
+  <%= render 'cased/guard/sessions/steps/requested', guard_session: guard_session %>
+<% elsif guard_session.denied? %>
+  <%= render 'cased/guard/sessions/steps/denied', guard_session: guard_session %>
+<% elsif guard_session.canceled? %>
+  <%= render 'cased/guard/sessions/steps/canceled', guard_session: guard_session %>
+<% elsif guard_session.timed_out? %>
+  <%= render 'cased/guard/sessions/steps/timed_out', guard_session: guard_session %>
+<% elsif guard_session.reason_required? %>
+  <%= render 'cased/guard/sessions/steps/reason_required', guard_session: guard_session %>
+<% end %>
