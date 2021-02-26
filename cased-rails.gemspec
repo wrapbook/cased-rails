@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   spec.add_dependency 'cased-ruby', '~> 0.3.3'
+  spec.add_dependency 'jbuilder', '>= 2.0'
   spec.add_dependency 'rails', '>= 6.0'
 
   spec.add_development_dependency 'mocha', '1.11.2'

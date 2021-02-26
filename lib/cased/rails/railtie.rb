@@ -5,6 +5,15 @@ require 'rails/railtie'
 module Cased
   module Rails
     class Railtie < ::Rails::Railtie
+      initializer 'cased.parameter_filter' do |app|
+        app.config.filter_parameters << proc do |key, value, _original_params|
+          next unless Cased.config.filter_parameters?
+          next if Cased.config.unfiltered_parameters.include?(key) || !value.respond_to?(:replace)
+
+          value.replace(ActiveSupport::ParameterFilter::FILTERED)
+        end
+      end
+
       initializer 'cased.include_controller_helpers' do
         ActiveSupport.on_load(:action_controller) do
           require 'cased/controller_helpers'
@@ -43,6 +52,9 @@ module Cased
       # :nocov:
       console do
         Cased.console
+
+        Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
+        exit unless Cased::CLI::Session.current&.approved?
       end
     end
   end
