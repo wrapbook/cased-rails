@@ -53,7 +53,16 @@ module Cased
       console do
         Cased.console
 
-        Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
+        session = Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
+        # If the session does not need its output recorded, we can bypass any
+        # forced exits.
+        next unless session.record_output?
+
+        # If we reach this line inside of the recorded session we don't want to
+        # exit but instead proceed to the `rails console` as usual.
+        #
+        # We don't want to enter the parent `rails console` so we exit right
+        # away as we know the child `rails console` completed successfully.
         exit unless Cased::CLI::Session.current&.approved?
       end
     end
