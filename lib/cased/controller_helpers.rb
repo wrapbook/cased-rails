@@ -6,13 +6,35 @@ module Cased
 
     included do
       before_action :cased_setup_request_context
-      helper_method :current_guard_session
+      if respond_to?(:helper_method)
+        helper_method :current_guard_session
+        helper_method :guard_intent_options
+      end
     end
 
     private
 
     def guard_required?
       true
+    end
+
+    # rescue_from JWT::VerificationError
+
+    def verify_guarded
+      raise 'Form tampered with' unless params['guard-token'].present?
+    end
+
+    def guarded(options = {})
+      @guard_intent_options = options
+    end
+
+    # private key
+    # reason required
+    def guard_intent
+      @guard_intent_options ||= {}
+
+      intent = Cased::Guard::Sessions::Intent.new('x', @guard_intent_options)
+      intent.generate
     end
 
     def current_guard_session
