@@ -14,6 +14,10 @@ module Cased
         end
       end
 
+      initializer 'cased.assets.precompile' do |app|
+        app.config.assets.precompile << 'cased/manifest.js'
+      end
+
       initializer 'cased.include_controller_helpers' do
         ActiveSupport.on_load(:action_controller) do
           require 'cased/controller_helpers'
