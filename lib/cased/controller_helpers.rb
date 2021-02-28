@@ -33,12 +33,12 @@ module Cased
     def guard_intent
       @guard_intent_options ||= {}
 
-      intent = Cased::Guard::Sessions::Intent.new('x', @guard_intent_options)
+      intent = Cased::CLI::Sessions::Intent.new('x', @guard_intent_options)
       intent.generate
     end
 
     def current_guard_session
-      @current_guard_session ||= Cased::Guard::Session.new(
+      @current_guard_session ||= Cased::CLI::Session.new(
         reason: params.dig(:guard_session, :reason),
         metadata: guard_session_metadata,
       )
@@ -52,7 +52,7 @@ module Cased
       guard_session_id = params.dig(:guard_session, :id)
       return false unless guard_session_id.present?
 
-      session = Cased::Guard::Session.find(guard_session_id)
+      session = Cased::CLI::Session.find(guard_session_id)
       session.approved?
     end
 
@@ -84,7 +84,7 @@ module Cased
     def render_guard
       respond_to do |format|
         format.html do
-          render template: 'cased/guard/sessions/new', layout: 'cased/guard'
+          render template: 'cased/cli/sessions/new', layout: 'cased/cli'
         end
 
         format.json do
