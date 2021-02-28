@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 module Cased
-  module Guard
+  module CLI
     class SessionsController < ApplicationController
       def show
-        guard_session = Cased::Guard::Session.find(params[:guard_session_id])
+        guard_session = Cased::CLI::Session.find(params[:guard_session_id])
 
         respond_to do |format|
           format.html do
-            render partial: 'cased/guard/sessions/form', locals: { guard_session: guard_session }
+            render partial: 'cased/cli/sessions/form', locals: { guard_session: guard_session }
           end
 
           format.json do
-            render partial: 'cased/guard/sessions/guard_session', locals: { guard_session: guard_session }
+            render partial: 'cased/cli/sessions/guard_session', locals: { guard_session: guard_session }
           end
         end
       end
 
       def cancel
-        guard_session = Cased::Guard::Session.find(params[:guard_session_id])
+        guard_session = Cased::CLI::Session.find(params[:guard_session_id])
         guard_session.cancel
 
         respond_to do |format|
@@ -26,7 +26,7 @@ module Cased
             safe_redirect_back
           end
           format.json do
-            render partial: 'cased/guard/sessions/guard_session', locals: { guard_session: guard_session }
+            render partial: 'cased/cli/sessions/guard_session', locals: { guard_session: guard_session }
           end
         end
       end
