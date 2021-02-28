@@ -8,7 +8,7 @@ module Cased
       before_action :cased_setup_request_context
       if respond_to?(:helper_method)
         helper_method :current_guard_session
-        helper_method :guard_intent_options
+        helper_method :guard_intent
       end
     end
 
