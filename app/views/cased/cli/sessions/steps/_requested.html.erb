@@ -1,4 +1,4 @@
-<%= form_with method: request.request_method_symbol, class: 'space-y-6', local: true, id: 'guard-session-form' do |form| %>
+<%= form_with method: request.request_method_symbol, local: true, id: 'guard-session-form' do |form| %>
   <%= guarded_parameters form %>
 
   <div class="flex justify-center">
@@ -14,11 +14,6 @@
   </div>
   <%= form.hidden_field 'guard_session[id]', value: guard_session.id %>
   <%= form.hidden_field 'guard_session[referer]', value: request.referer %>
-<% end %>
-
-<%= form_with url: cased.cancel_guard_session_url(guard_session) do |form| %>
-  <%= form.hidden_field 'guard_session[referer]', value: request.referer %>
-  <%= form.submit 'Cancel' %>
 <% end %>
 
 <script>
