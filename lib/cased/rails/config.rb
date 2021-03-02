@@ -18,6 +18,15 @@ module Cased
         ].freeze
       end
 
+      def skip_recording_console=(should_skip_recording_console)
+        @skip_recording_console = should_skip_recording_console
+      end
+
+      def skip_recording_console?
+        return @skip_recording_console if defined?(@skip_recording_console)
+        @skip_recording_console = ::Rails.env.development? || ::Rails.env.test?
+      end
+
       def filter_parameters=(new_filter_parameters)
         @filter_parameters = new_filter_parameters
       end

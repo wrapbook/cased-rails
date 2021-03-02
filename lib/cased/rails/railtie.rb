@@ -58,7 +58,7 @@ module Cased
         Cased.console
 
         # We only want to record any non-development or test console sessions.
-        next unless ::Rails.env.development? || ::Rails.env.test?
+        next if Cased.config.skip_recording_console?
 
         session = Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
         # If the session does not need its output recorded, we can bypass any
