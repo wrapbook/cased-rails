@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cased
   class Authorization
     class MissingApplicationKey < StandardError
