@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cased
   module Rails
     module Config
@@ -22,6 +24,7 @@ module Cased
 
       def filter_parameters?
         return @filter_parameters if defined?(@filter_parameters)
+
         @filter_parameters = if ENV['CASED_FILTER_PARAMETERS']
           parse_bool(ENV['CASED_FILTER_PARAMETERS'])
         else

@@ -1,11 +1,15 @@
-<% if guard_session.requested? %>
-  <%= render 'cased/cli/sessions/steps/requested', guard_session: guard_session %>
-<% elsif guard_session.denied? %>
-  <%= render 'cased/cli/sessions/steps/denied', guard_session: guard_session %>
-<% elsif guard_session.canceled? %>
-  <%= render 'cased/cli/sessions/steps/canceled', guard_session: guard_session %>
-<% elsif guard_session.timed_out? %>
-  <%= render 'cased/cli/sessions/steps/timed_out', guard_session: guard_session %>
-<% elsif guard_session.reason_required? %>
-  <%= render 'cased/cli/sessions/steps/reason_required', guard_session: guard_session %>
-<% end %>
+<div id="guard-session-container">
+  <% if guard_session.requested? %>
+    <%= render 'cased/cli/sessions/steps/requested', guard_session: guard_session %>
+  <% elsif guard_session.denied? %>
+    <%= render 'cased/cli/sessions/steps/denied', guard_session: guard_session %>
+  <% elsif guard_session.canceled? %>
+    <%= render 'cased/cli/sessions/steps/canceled', guard_session: guard_session %>
+  <% elsif guard_session.timed_out? %>
+    <%= render 'cased/cli/sessions/steps/timed_out', guard_session: guard_session %>
+  <% elsif guard_session.reason_required? %>
+    <%= render 'cased/cli/sessions/steps/reason_required', guard_session: guard_session %>
+  <% else %>
+    <%= render 'cased/cli/sessions/steps/create', guard_session: guard_session %>
+  <% end %>
+</div>

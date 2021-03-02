@@ -1,0 +1,8 @@
+<script>
+if (window.opener) {
+  window.opener.postMessage({
+    user: "<%= cased_authorization.user %>"
+  })
+  window.close()
+}
+</script>

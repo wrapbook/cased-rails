@@ -9,6 +9,8 @@ module Cased
       if respond_to?(:helper_method)
         helper_method :current_guard_session
         helper_method :guard_intent
+        helper_method :cased_authorization
+        helper_method :cased_authorization?
       end
     end
 
@@ -28,6 +30,27 @@ module Cased
       @guard_intent_options = options
     end
 
+    def cased_authorization
+      @cased_authorization ||= if cookies[:cased_authorization]
+        # rescue if expired and unset cookie
+        Cased::Authorization.load!(cookies[:cased_authorization])
+      end
+    end
+
+    def cased_authorization?
+      cased_authorization.present?
+    end
+
+    def cased_authorization=(token)
+      if token.nil?
+        cookies.delete(:cased_authorization)
+      else
+        Cased::Authorization.validate!(token)
+
+        cookies[:cased_authorization] = token
+      end
+    end
+
     # private key
     # reason required
     def guard_intent
@@ -41,6 +64,7 @@ module Cased
       @current_guard_session ||= Cased::CLI::Session.new(
         reason: params.dig(:guard_session, :reason),
         metadata: guard_session_metadata,
+        authentication: cased_authorization,
       )
     end
 

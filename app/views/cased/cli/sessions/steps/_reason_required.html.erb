@@ -1,4 +1,4 @@
-<%= form_with method: request.request_method_symbol, class: 'space-y-6', id: 'guard-reason-required-form' do |form| %>
+<%= form_with method: request.request_method_symbol, class: 'space-y-6', local: true, id: 'guard-reason-required-form' do |form| %>
   <%= guarded_parameters form %>
 
   <div>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CasedHelper
   def guarded_parameters(form)
     form_params = params.except(:authenticity_token, :controller, :action)
