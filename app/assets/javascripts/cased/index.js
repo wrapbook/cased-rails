@@ -1,5 +1,17 @@
 //= require rails-ujs
 
+let windowReference = null;
+let previousUrl = null;
+let casedCreateSession = null;
+let casedLoggedInContainer = null;
+let casedLoggedOutContainer = null;
+let casedUser = null;
+
+// receiveMessage is the callback that is triggered when an authentication
+// response is received from the new window we opened.
+//
+// We use this callback to update the user information in the UI and show the
+// logged in container.
 const receiveMessage = (event) => {
   if (!event.isTrusted) {
     return;
@@ -15,13 +27,7 @@ const receiveMessage = (event) => {
   }
 };
 
-let windowReference = null;
-let previousUrl = null;
-let casedCreateSession = null;
-let casedLoggedInContainer = null;
-let casedLoggedOutContainer = null;
-let casedUser = null;
-
+// openSignInWindow is used to present the Cased sign in window.
 const openSignInWindow = (url) => {
   window.removeEventListener("message", receiveMessage);
   const windowFeatures =
