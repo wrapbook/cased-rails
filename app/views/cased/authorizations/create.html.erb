@@ -1,4 +1,6 @@
 <script>
+// We need to let the originating window know about the new logged in user.
+// Once the originating window is notified we can close this window.
 if (window.opener) {
   window.opener.postMessage({
     user: "<%= cased_authorization.user %>"

@@ -19,6 +19,8 @@ module Cased
     def self.load!(token)
       raise MissingApplicationKey if Cased.config.guard_application_key.blank?
 
+      # JWT.decode will raise here if the token has expired or the application
+      # key does not match meaning it has been tampered with.
       data, = JWT.decode(token, Cased.config.guard_application_key, true, algorithm: ALGORITHM)
 
       new(

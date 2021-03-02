@@ -25,6 +25,7 @@ module Cased
           format.html do
             safe_redirect_back
           end
+
           format.json do
             render partial: 'cased/cli/sessions/guard_session', locals: { guard_session: guard_session }
           end

@@ -22,7 +22,6 @@ module Cased
     def cased_authorization
       @cased_authorization ||= begin
         if cookies[:cased_authorization]
-          # rescue if expired and unset cookie
           Cased::Authorization.load!(cookies[:cased_authorization])
         end
       rescue JWT::ExpiredSignature
@@ -51,10 +50,6 @@ module Cased
         metadata: guard_session_metadata,
         authentication: cased_authorization,
       )
-    end
-
-    def guard_session_params
-      params.require(:guard_session).permit(:reason)
     end
 
     def guard_session_approved?
