@@ -61,6 +61,7 @@ module Cased
         next if Cased.config.skip_recording_console?
 
         session = Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
+        Cased.context.merge(guard_session: session)
         # If the session does not need its output recorded, we can bypass any
         # forced exits.
         next unless session.record_output?
