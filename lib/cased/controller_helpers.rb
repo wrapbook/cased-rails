@@ -8,7 +8,6 @@ module Cased
       before_action :cased_setup_request_context
       if respond_to?(:helper_method)
         helper_method :current_guard_session
-        helper_method :guard_intent
         helper_method :cased_authorization
         helper_method :cased_authorization?
       end
@@ -18,16 +17,6 @@ module Cased
 
     def guard_required?
       true
-    end
-
-    # rescue_from JWT::VerificationError
-
-    def verify_guarded
-      raise 'Form tampered with' unless params['guard-token'].present?
-    end
-
-    def guarded(options = {})
-      @guard_intent_options = options
     end
 
     def cased_authorization
@@ -49,15 +38,6 @@ module Cased
 
         cookies[:cased_authorization] = token
       end
-    end
-
-    # private key
-    # reason required
-    def guard_intent
-      @guard_intent_options ||= {}
-
-      intent = Cased::CLI::Sessions::Intent.new('x', @guard_intent_options)
-      intent.generate
     end
 
     def current_guard_session
