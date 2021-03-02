@@ -12,7 +12,7 @@ gemspec
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
-gem 'cased-ruby', path: '~/cased/cased-ruby'
+# gem 'cased-ruby', path: '~/cased/cased-ruby'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
