@@ -20,9 +20,14 @@ module Cased
     end
 
     def cased_authorization
-      @cased_authorization ||= if cookies[:cased_authorization]
-        # rescue if expired and unset cookie
-        Cased::Authorization.load!(cookies[:cased_authorization])
+      @cased_authorization ||= begin
+        if cookies[:cased_authorization]
+          # rescue if expired and unset cookie
+          Cased::Authorization.load!(cookies[:cased_authorization])
+        end
+      rescue JWT::ExpiredSignature
+        cookies.delete(:cased_authorization)
+        nil
       end
     end
 
