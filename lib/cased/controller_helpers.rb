@@ -74,7 +74,7 @@ module Cased
         return true
       end
 
-      if current_guard_session.create && current_guard_session.approved?
+      if cased_authorization? && current_guard_session.create && current_guard_session.approved?
         Cased.context.merge(guard_session: current_guard_session)
         return true
       end
