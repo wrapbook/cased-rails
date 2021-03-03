@@ -27,6 +27,9 @@ Style/TrailingCommaInArguments:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 

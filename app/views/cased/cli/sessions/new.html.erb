@@ -1,0 +1,24 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%= image_tag 'cased/logo.png', class: 'mx-auto h-12 w-auto' %>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div id="cased-logged-in" class="<%= 'hidden' unless cased_authorization? %>">
+      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <%= render 'cased/cli/sessions/form', guard_session: current_guard_session %>
+      </div>
+      <div class="text-center py-4 flex justify-center space-x-2">
+        <div>
+          Logged in as <span id="cased-user"><%= cased_authorization %></span>.
+        </div>
+        <%= button_to 'Logout', cased.logout_path, form: { id: 'cased-logout' }, method: :delete, remote: true, class: 'p-0 border-none bg-transparent text-blue-500 shadow-none cursor-pointer' %>
+      </div>
+    </div>
+    <div id="cased-logged-out" class="<%= 'hidden' if cased_authorization? %>">
+      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <%= link_to 'Sign in to Cased', "#{Cased.config.url}/login/connect/#{Cased.config.guard_application_key}?return_to=#{cased.authorizations_url}", id: 'cased-authenticate', class: 'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' %>
+      </div>
+    </div>
+  </div>
+</div>

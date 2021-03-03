@@ -1,0 +1,49 @@
+<%= form_with method: request.request_method_symbol, local: true, id: 'guard-session-form' do |form| %>
+  <%= guarded_parameters form %>
+
+  <div class="flex justify-center">
+    <div>
+      <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-gray" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+    <div>
+      Waiting for approval…
+    </div>
+  </div>
+  <%= form.hidden_field 'guard_session[id]', value: guard_session.id %>
+  <%= form.hidden_field 'guard_session[referer]', value: request.referer %>
+<% end %>
+
+<script>
+  const checkState = () => {
+    fetch("<%= cased.guard_session_url(guard_session, format: :json) %>")
+      .then((response) => response.json())
+      .then((json) => {
+        switch (json.state) {
+          case 'approved':
+            document.getElementById('guard-session-form').submit()
+            break;
+
+          case 'requested':
+            setTimeout(checkState, 1000)
+            break;
+
+          default:
+            refresh()
+            break;
+        }
+      })
+  }
+
+  const refresh = () => {
+    fetch("<%= cased.guard_session_url(guard_session) %>")
+      .then((response) => response.text())
+      .then((html) => {
+        document.getElementById('guard-session-container').innerHTML = html
+      })
+  }
+
+  checkState()
+</script>
