@@ -18,16 +18,6 @@ module Cased
         ].freeze
       end
 
-      def skip_recording_console=(should_skip_recording_console)
-        @skip_recording_console = should_skip_recording_console
-      end
-
-      def skip_recording_console?
-        return @skip_recording_console if defined?(@skip_recording_console)
-
-        @skip_recording_console = ::Rails.env.development? || ::Rails.env.test?
-      end
-
       def filter_parameters=(new_filter_parameters)
         @filter_parameters = new_filter_parameters
       end
@@ -40,16 +30,6 @@ module Cased
         else
           true
         end
-      end
-
-      def url=(url)
-        @url = url
-      end
-
-      def url
-        return @url if defined?(@url)
-
-        @url = ENV.fetch('CASED_URL', 'https://app.cased.com')
       end
     end
   end

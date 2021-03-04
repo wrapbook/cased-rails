@@ -57,8 +57,9 @@ module Cased
       console do
         Cased.console
 
-        # We only want to record any non-development or test console sessions.
-        next if Cased.config.skip_recording_console?
+        # We only want to start an interactive session if Cased CLI is
+        # configured.
+        next if Cased.config.guard_application_key.blank?
 
         session = Cased::CLI::InteractiveSession.start(command: "#{Dir.pwd}/bin/rails console")
         Cased.context.merge(guard_session: session)
