@@ -41,16 +41,6 @@ module Cased
           true
         end
       end
-
-      def url=(url)
-        @url = url
-      end
-
-      def url
-        return @url if defined?(@url)
-
-        @url = ENV.fetch('CASED_URL', 'https://app.cased.com')
-      end
     end
   end
 end
