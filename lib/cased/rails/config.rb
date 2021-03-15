@@ -28,7 +28,7 @@ module Cased
         @filter_parameters = if ENV['CASED_FILTER_PARAMETERS']
           parse_bool(ENV['CASED_FILTER_PARAMETERS'])
         else
-          true
+          ::Rails.env.staging? || ::Rails.env.production?
         end
       end
     end
