@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cased-rails (0.4.2)
+    cased-rails (0.4.3)
       cased-ruby (~> 0.4.3)
       jbuilder (>= 2.0)
       rails (>= 6.0)
