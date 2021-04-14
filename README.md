@@ -7,15 +7,18 @@ A Cased client for Ruby on Rails applications in your organization to control an
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-  - [Publishing events to Cased](#publishing-events-to-cased)
-  - [Publishing audit events for all record creation, updates, and deletions automatically](#publishing-audit-events-for-all-record-creation-updates-and-deletions-automatically)
-  - [Retrieving events from a Cased audit trail](#retrieving-events-from-a-cased-audit-trail)
-  - [Retrieving events from multiple Cased audit trails](#retrieving-events-from-multiple-cased-audit-trails)
-  - [Exporting events](#exporting-events)
-  - [Masking & filtering sensitive information](#masking-and-filtering-sensitive-information)
-  - [Disable publishing events](#disable-publishing-events)
-  - [Context](#context)
-  - [Testing](#testing)
+  - [Cased CLI](#cased-cli)
+    - [Recording console sessions](#recording-console-sessions)
+  - [Audit trails](#audit-trails)
+    - [Publishing events to Cased](#publishing-events-to-cased)
+    - [Publishing audit events for all record creation, updates, and deletions automatically](#publishing-audit-events-for-all-record-creation-updates-and-deletions-automatically)
+    - [Retrieving events from a Cased audit trail](#retrieving-events-from-a-cased-audit-trail)
+    - [Retrieving events from multiple Cased audit trails](#retrieving-events-from-multiple-cased-audit-trails)
+    - [Exporting events](#exporting-events)
+    - [Masking & filtering sensitive information](#masking-and-filtering-sensitive-information)
+    - [Disable publishing events](#disable-publishing-events)
+    - [Context](#context)
+    - [Testing](#testing)
 - [Customizing cased-rails](#customizing-cased-rails)
 - [Contributing](#contributing)
 
@@ -41,6 +44,26 @@ All configuration options available in cased-rails are available to be configure
 
 ```ruby
 Cased.configure do |config|
+  # GUARD_APPLICATION_KEY=guard_application_1ntKX0P4vUbKoc0lMWGiSbrBHcH
+  config.guard_application_key = 'guard_application_1ntKX0P4vUbKoc0lMWGiSbrBHcH'
+
+  # GUARD_USER_TOKEN=user_1oFqlROLNRGVLOXJSsHkJiVmylr
+  config.guard_user_token = 'user_1oFqlROLNRGVLOXJSsHkJiVmylr'
+
+  # DENY_IF_UNREACHABLE=1
+  config.guard_deny_if_unreachable = true
+
+  # Attach metadata to all CLI requests. This metadata will appear in Cased and
+  # any notification source such as email or Slack.
+  #
+  # You are limited to 20 properties and cannot be a nested dictionary. Metadata
+  # specified in the CLI request overrides any configured globally.
+  config.cli.metadata = {
+    rails_env: ENV['RAILS_ENV'],
+    heroku_application: ENV['HEROKU_APP_NAME'],
+    git_commit: ENV['GIT_COMMIT'],
+  }
+
   # CASED_POLICY_KEY=policy_live_1dQpY5JliYgHSkEntAbMVzuOROh
   config.policy_key = 'policy_live_1dQpY5JliYgHSkEntAbMVzuOROh'
 
@@ -76,7 +99,61 @@ end
 
 ## Usage
 
-### Publishing events to Cased
+### Cased CLI
+
+#### Playback console sessions
+
+Having visibility into production terminal sessions is essential to providing
+access to sensitive data and critical systems. `cased-rails` can provide complete
+command line session recordings with minimal configuration.
+
+First, enable the "Record output" option in your application's settings page on Cased.
+
+Next grab the application's key from the same settings page and configure
+`cased-rails` with it either by using an environment variable or manually.
+
+**Environment variable**
+
+```
+GUARD_APPLICATION_KEY=guard_application_1rBCh8o3YMaI1eAKxbrNvnLki3x rails console
+```
+
+**Manually**
+
+```ruby
+Cased.configure do |config|
+  config.guard_application_key = 'guard_application_1rBCh8o3YMaI1eAKxbrNvnLki3x'
+end
+```
+
+By default playback will be saved only when a Rails console is started outside
+of development and test. When the playback is being saved, by default all
+parameters other than `id`, `action`, and `controller` will be filtered out.
+For example:
+
+```
+#<User id: "user_1qwkKB8IGxQFlu3C4lI53tCIyZI", organization: "Enterprise">
+```
+
+Would become:
+
+```
+#<User id: "user_1qwkKB8IGxQFlu3C4lI53tCIyZI", organization: [FILTERED]>
+```
+
+If you'd like to configure if filtering is enabled or specify which attributes
+are not filtered you can do so with:
+
+```ruby
+Cased.configure do |config|
+  config.unfiltered_parameters = ['id', 'action', 'controller']
+  config.filter_parameters = Rails.env.production?
+end
+```
+
+### Audit trails
+
+#### Publishing events to Cased
 
 Once Cased is setup there are two ways to publish your first audit trail event.
 The first is using the `cased` helper method included in all ActiveRecord models.
@@ -151,7 +228,7 @@ end
 
 By publishing the `team.create` audit event within the controller directly as shown you risk not having a complete and comprehensive audit trail for each team created in your application as it may happen in your API, model callbacks, and more.
 
-### Publishing audit events for all record creation, updates, and deletions automatically
+#### Publishing audit events for all record creation, updates, and deletions automatically
 
 Cased provides a mixin you can include in your models or in `ApplicationRecord` to automatically publish when new models are created, updated, or destroyed.
 
@@ -173,7 +250,7 @@ end
 
 This mixin is intended to get you up and running quickly. You'll likely need to configure your own callbacks to control what exactly gets published to Cased.
 
-### Retrieving events from a Cased audit trail
+#### Retrieving events from a Cased audit trail
 
 If you plan on retrieving events from your audit trails to power a user facing audit trail or API you must use a Cased API key.
 
@@ -200,7 +277,7 @@ class AuditTrailController < ApplicationController
 end
 ```
 
-### Retrieving events from multiple Cased audit trails
+#### Retrieving events from multiple Cased audit trails
 
 To retrieve events from one or more Cased audit trails you can configure multiple Cased API keys and retrieve events for each one by fetching their respective clients.
 
@@ -227,7 +304,7 @@ results.each do |event|
 end
 ```
 
-### Exporting events
+#### Exporting events
 
 Exporting events from Cased allows you to provide users with exports of their own data or to respond to data requests.
 
@@ -243,7 +320,7 @@ export = Cased.policy.exports.create(
 export.download_url # => https://api.cased.com/exports/export_1dSHQSNtAH90KA8zGTooMnmMdiD/download?token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcl8xZFFwWThiQmdFd2RwbWRwVnJydER6TVg0ZkgiLCJ
 ```
 
-### Masking & filtering sensitive information
+#### Masking & filtering sensitive information
 
 If you are handling sensitive information on behalf of your users you should consider masking or filtering any sensitive information.
 
@@ -258,7 +335,7 @@ Cased.publish(
 )
 ```
 
-### Console Usage
+#### Console Usage
 
 Most Cased events will be created by users from actions on the website from
 custom defined events or lifecycle callbacks. The exception is any console
@@ -275,7 +352,7 @@ Rails.application.console do
 end
 ```
 
-### Disable publishing events
+#### Disable publishing events
 
 Although rare, there may be times where you wish to disable publishing events to Cased. To do so wrap your transaction inside of a `Cased.disable` block:
 
@@ -291,7 +368,7 @@ Or you can configure the entire process to disable publishing events.
 CASED_DISABLE_PUBLISHING=1 bundle exec ruby crawl.rb
 ```
 
-### Context
+#### Context
 
 When you include `cased-rails` in your application your Ruby on Rails application is configures a [Rack middleware](https://github.com/cased/cased-ruby/blob/master/lib/cased/rack_middleware.rb) that populates `Cased.context` with the following information for each request:
 
@@ -364,7 +441,7 @@ To clear/reset the context:
 Cased.context.clear
 ```
 
-### Testing
+#### Testing
 
 `cased-rails` provides a Cased::TestHelper test helper class that you can use to test events are being published to Cased.
 
