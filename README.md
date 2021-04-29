@@ -169,8 +169,10 @@ Rails.application.routes.draw do
 end
 ```
 
-To control whether or not a reason and/or peer approval is required, that must
-be configured within your CLI application settings on Cased.
+To control the requirements for an approval workflow, that must be configured
+within your CLI application settings on Cased. Some controls include restricting
+which users or groups can approve the request, if a reason is required, how long
+until the request times out, and more.
 
 To start an your approval workflow all that is needed is to call the `guard`
 method before a request using `before_action`.
