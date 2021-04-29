@@ -9,6 +9,7 @@ A Cased client for Ruby on Rails applications in your organization to control an
 - [Usage](#usage)
   - [Cased CLI](#cased-cli)
     - [Recording console sessions](#recording-console-sessions)
+    - [Approval workflows for your controllers](#approval-workflows-for-your-controllers)
   - [Audit trails](#audit-trails)
     - [Publishing events to Cased](#publishing-events-to-cased)
     - [Publishing audit events for all record creation, updates, and deletions automatically](#publishing-audit-events-for-all-record-creation-updates-and-deletions-automatically)
@@ -150,6 +151,62 @@ Cased.configure do |config|
   config.filter_parameters = Rails.env.production?
 end
 ```
+
+#### Adding approval workflows to your controllers
+
+Adding approval workflows to your controllers is a two step process in your
+Rails applications. 
+
+First, mount the Rails engine in your routes. The included Rails engine in
+cased-rails is necessary for the approval workflow to know whether or not it has
+been requested, approved, denied, canceled or timed out.
+
+```ruby
+Rails.application.routes.draw do
+  mount Cased::Rails::Engine => '/cased'
+
+  root to: 'home#show'
+end
+```
+
+To control whether or not a reason and/or peer approval is required, that must
+be configured within your CLI application settings on Cased.
+
+To start an your approval workflow all that is needed is to call the `guard`
+method before a request using `before_action`.
+
+```ruby
+class AccountsController < ApplicationController
+  before_action :guard, only: %i[update destroy]
+
+  def update
+    if current_account.update(account_params)
+      redirect_to current_account
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    if current_account.destroy
+      redirect_to accounts_path
+    else
+      redirect_to current_account
+    end
+  end
+
+  private
+
+  def account_params
+    params.require(:account).permit(:name, :description, :email)
+  end
+end
+```
+
+Approval workflows are best started just before data is about to be created,
+updated, or destroyed. Approval workflows are not intended to control permission
+to view resources. The actions we recommend guarding are `create`, `update`, and
+`destroy` based on your needs.
 
 ### Audit trails
 
