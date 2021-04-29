@@ -9,7 +9,7 @@ A Cased client for Ruby on Rails applications in your organization to control an
 - [Usage](#usage)
   - [Cased CLI](#cased-cli)
     - [Recording console sessions](#recording-console-sessions)
-    - [Approval workflows for your controllers](#approval-workflows-for-your-controllers)
+    - [Approval workflows for sensitive operations](#approval-workflows-for-sensitive-operations)
   - [Audit trails](#audit-trails)
     - [Publishing events to Cased](#publishing-events-to-cased)
     - [Publishing audit events for all record creation, updates, and deletions automatically](#publishing-audit-events-for-all-record-creation-updates-and-deletions-automatically)
@@ -152,7 +152,7 @@ Cased.configure do |config|
 end
 ```
 
-#### Adding approval workflows to your controllers
+#### Approval workflows for sensitive operations
 
 Adding approval workflows to your controllers is a two step process in your
 Rails applications. 
