@@ -5,6 +5,7 @@ PATH
       cased-ruby (~> 0.5.1)
       jbuilder (>= 2.0)
       rails (>= 6.0)
+      rexml (~> 3.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -178,6 +179,7 @@ GEM
       thor (~> 1.0)
     rainbow (3.0.0)
     rake (13.0.3)
+    rexml (3.2.5)
     rubocop (0.77.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
