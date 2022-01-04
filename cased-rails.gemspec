@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'mocha', '1.11.2'
   spec.add_development_dependency 'pg', '1.2.1'
-  spec.add_development_dependency 'rubocop', '0.77.0'
+  spec.add_development_dependency 'rubocop', '0.93.1'
   spec.add_development_dependency 'webmock', '3.8.3'
 end

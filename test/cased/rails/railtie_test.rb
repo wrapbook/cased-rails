@@ -16,7 +16,7 @@ module Cased
 
         actual_context = {}
 
-        TestJob = Class.new(::ActiveJob::Base) do
+        TestJob = Class.new(::ActiveJob::Base) do # rubocop:disable Lint/ConstantDefinitionInBlock
           before_perform do
             actual_context = Cased.context.context
           end
