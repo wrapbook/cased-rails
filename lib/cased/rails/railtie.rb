@@ -15,6 +15,7 @@ module Cased
       end
 
       initializer 'cased.assets.precompile' do |app|
+        require 'sprockets/railtie'
         app.config.assets.precompile << 'cased/manifest.js'
       end
 
