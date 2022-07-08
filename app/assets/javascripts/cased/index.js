@@ -72,4 +72,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
       casedLoggedOutContainer.classList.remove("hidden");
     });
   }
+
+  const casedReasonFormContainer = document.getElementById("guard-reason-required-form");
+  if (casedReasonFormContainer) {
+    casedReasonFormContainer.addEventListener("submit", (event) => {
+      const submitButton = event.currentTarget.querySelector("button[type='submit']");
+      // Container will change after submission; no need to re-enable the button
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+    });
+  }
 });
