@@ -1,8 +1,22 @@
+GIT
+  remote: https://github.com/wrapbook/cased-ruby.git
+  revision: 670d47af82b30b03ec5db8c9efb543e861472ed0
+  branch: chores/rails-71-upgrade
+  specs:
+    cased-ruby (0.8.0)
+      activesupport (>= 6.1, <= 7.1)
+      dotpath (~> 0.1.0)
+      faraday (~> 2.0)
+      json (~> 2.5.1)
+      jwt (~> 2.7.1)
+      net-http-persistent (~> 4.0.1)
+      subprocess (~> 1.5.5)
+      tty-prompt (~> 0.23.1)
+
 PATH
   remote: .
   specs:
     cased-rails (0.9.0)
-      cased-ruby (~> 0.8.0)
       jbuilder (>= 2.0)
       rails (>= 6.0.0, <= 7.1)
       rexml (~> 3.2.5)
@@ -79,16 +93,8 @@ GEM
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    base64 (0.1.1)
     builder (3.2.4)
-    cased-ruby (0.8.0)
-      activesupport (>= 6.1, < 7.1)
-      dotpath (~> 0.1.0)
-      faraday (~> 2.0)
-      json (~> 2.5.1)
-      jwt (~> 2.7.1)
-      net-http-persistent (~> 4.0.1)
-      subprocess (~> 1.5.5)
-      tty-prompt (~> 0.23.1)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crack (0.4.5)
@@ -98,7 +104,8 @@ GEM
     docile (1.4.0)
     dotpath (0.1.0)
     erubi (1.12.0)
-    faraday (2.7.10)
+    faraday (2.7.11)
+      base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
@@ -242,6 +249,7 @@ PLATFORMS
 
 DEPENDENCIES
   cased-rails!
+  cased-ruby!
   mocha (= 1.11.2)
   pg (= 1.2.1)
   rubocop (= 0.93.1)

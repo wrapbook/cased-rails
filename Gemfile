@@ -18,3 +18,5 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'simplecov', '0.21.2', require: false
+
+gem "cased-ruby", github: "wrapbook/cased-ruby", branch: "chores/rails-71-upgrade"
