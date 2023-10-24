@@ -23,8 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rexml', '~> 3.2.5'
   spec.add_dependency 'sprockets-rails', '~> 3.4.2'
 
-  spec.add_development_dependency 'mocha', '1.11.2'
-  spec.add_development_dependency 'pg', '1.2.1'
-  spec.add_development_dependency 'rubocop', '0.93.1'
-  spec.add_development_dependency 'webmock', '3.8.3'
+  spec.add_development_dependency 'mocha', '~> 1.11.2'
+  spec.add_development_dependency 'pg', '~> 1.5.4'
+  spec.add_development_dependency 'rubocop', '~> 0.93.1'
+  spec.add_development_dependency 'webmock', '~> 3.8.3'
 end
