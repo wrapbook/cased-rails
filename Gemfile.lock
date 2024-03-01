@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/wrapbook/cased-ruby.git
-  revision: fbc99d7d512e9dfe22db237b1575b4084c5c541e
-  branch: chores/rails-71-upgrade
+  revision: 7e4a420fd9a644de2406e0b4b8bd97201dbe40b5
+  ref: 7e4a420
   specs:
     cased-ruby (0.8.0)
       activesupport (>= 6.1, < 8)
@@ -17,6 +17,7 @@ PATH
   remote: .
   specs:
     cased-rails (0.9.0)
+      cased-ruby (~> 0.8.0)
       jbuilder (>= 2.0)
       rails (>= 6.0.0, < 8)
       rexml (~> 3.2.5)
